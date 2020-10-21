@@ -1,9 +1,9 @@
 server:
-    port: 9011
+    port: 9012
 
 spring:
     application:
-        name: nacos-payment-provider
+        name: nacos-payment-consumer
 
     cloud:
         nacos:
@@ -27,3 +27,9 @@ management:
             exposure:
                 include: '*'
 
+# 使用openfeign已整合的Ribbon 设置feign客户端的超时时间
+ribbon:
+    # 建立连接后，从服务器读取到可用资源所用的时间
+    ReadTimeout: 5000
+    # 建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+    ConnectTimeout: 5000
