@@ -1,9 +1,8 @@
 package com.wsw.fusertaskmanager.controller;
 
-import com.oracle.tools.packager.Log;
 import com.wsw.fusertaskmanager.entities.CommonResult;
 import com.wsw.fusertaskmanager.entities.Payment;
-import com.wsw.fusertaskmanager.service.PaymentFeignService;
+import com.wsw.fusertaskmanager.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class PaymentController {
     @Autowired
-    private PaymentFeignService paymentFeignService;
+    private PaymentService paymentService;
 
     @GetMapping("/consumer/nacos/payment/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id){
-        return paymentFeignService.getPaymentById(id);
+        return paymentService.getPaymentById(id);
     }
 }
