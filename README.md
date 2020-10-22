@@ -4,6 +4,7 @@
 
 分布式微服务系统架构
 
+本项目参考个人学习仓库: https://github.com/WswSummer15/myspringcloud2020
 ## Java版本
 ```text
 Java1.8
