@@ -12,10 +12,15 @@
     </parent>
 
     <dependencies>
-        <!-- SpringCloud Alibaba Nacos-->
+        <!-- Nacos discovery-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- Nacos config-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!--openFeign-->
         <dependency>

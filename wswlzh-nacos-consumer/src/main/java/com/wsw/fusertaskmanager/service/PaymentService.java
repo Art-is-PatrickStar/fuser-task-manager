@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Description: 使用openFeign进行服务调用
  */
 @Service
-@FeignClient(contextId = "paymentService", value = "nacos-payment-provider")
+@FeignClient(value = "nacos-payment-provider")
 public interface PaymentService {
     @GetMapping("/nacos/payment/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id);
