@@ -1,7 +1,9 @@
 package com.wsw.fusertaskmanager.service;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.wsw.fusertaskmanager.entities.CommonResult;
 import com.wsw.fusertaskmanager.entities.Payment;
+import com.wsw.fusertaskmanager.handler.GlobalHandler;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
