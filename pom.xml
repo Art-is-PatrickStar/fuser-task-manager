@@ -11,6 +11,7 @@
 
 <modules>
     <module>wswlzh-nacos-provider</module>
+    <module>wswlzh-nacos-provider2</module>
     <module>wswlzh-api-commons</module>
     <module>wswlzh-nacos-consumer</module>
 </modules>
