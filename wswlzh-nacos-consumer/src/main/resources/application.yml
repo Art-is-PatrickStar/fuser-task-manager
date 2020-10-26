@@ -14,6 +14,11 @@ spring:
                 dashboard: localhost:9090  # sentinel dashboard地址
                 port: 8719  # sentinel api port
 
+# 激活sentinel对feign的支持
+feign:
+    sentinel:
+        enabled: true
+
 management:
     endpoints:
         web:

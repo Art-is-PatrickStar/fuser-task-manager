@@ -23,7 +23,7 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/consumer/nacos/payment/{id}")
-    @SentinelResource(value = "consumer_getPaymentById", blockHandlerClass = GlobalHandler.class, blockHandler = "blockHandler1")
+    @SentinelResource(value = "consumer_getPaymentById", blockHandlerClass = GlobalHandler.class, blockHandler = "blockHandler")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id){
         return paymentService.getPaymentById(id);
     }

@@ -2,6 +2,8 @@ package com.wsw.fusertaskmanager.handler;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.wsw.fusertaskmanager.entities.CommonResult;
+import com.wsw.fusertaskmanager.entities.Payment;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @Author WangSongWen
@@ -9,7 +11,8 @@ import com.wsw.fusertaskmanager.entities.CommonResult;
  * @Description:
  */
 public class GlobalHandler {
-    public static CommonResult blockHandler1(BlockException exception){
-        return new CommonResult(444, "获取资源失败: " + exception.getMessage().toString());
+    public static CommonResult blockHandler(@PathVariable Long id, BlockException exception){
+        Payment payment = new Payment(id, null);
+        return new CommonResult(444, "获取资源失败: " + exception.getMessage().toString(), payment);
     }
 }
