@@ -1,5 +1,5 @@
 server:
-    port: 9012
+    port: 8401
 
 spring:
     application:
@@ -9,21 +9,13 @@ spring:
         nacos:
             discovery:
                 server-addr: localhost:8848  # 配置nacos地址
-
-    datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/db2020?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-        username: root
-        password: wsw19980801
-
-mybatis:
-    mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: com.wsw.fusertaskmanager.entities
+        sentinel:
+            transport:
+                dashboard: localhost:9090  # sentinel dashboard地址
+                port: 8719  # sentinel api port
 
 management:
     endpoints:
         web:
             exposure:
                 include: '*'
-

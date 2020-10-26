@@ -8,8 +8,8 @@ import com.wsw.fusertaskmanager.entities.CommonResult;
  * @Date: Created in 14:31 2020/10/26
  * @Description:
  */
-public class MyBlockExceptionHandler {
-    public static CommonResult blockHandler(BlockException exception){
+public class GlobalHandler {
+    public static CommonResult blockHandler1(BlockException exception){
         return new CommonResult(444, "获取资源失败: " + exception.getMessage().toString());
     }
 }

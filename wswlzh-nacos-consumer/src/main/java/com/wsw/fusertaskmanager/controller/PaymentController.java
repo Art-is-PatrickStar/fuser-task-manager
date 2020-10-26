@@ -1,7 +1,9 @@
 package com.wsw.fusertaskmanager.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.wsw.fusertaskmanager.entities.CommonResult;
 import com.wsw.fusertaskmanager.entities.Payment;
+import com.wsw.fusertaskmanager.handler.GlobalHandler;
 import com.wsw.fusertaskmanager.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/consumer/nacos/payment/{id}")
+    @SentinelResource(value = "consumer_getPaymentById", blockHandlerClass = GlobalHandler.class, blockHandler = "blockHandler1")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id){
         return paymentService.getPaymentById(id);
     }
