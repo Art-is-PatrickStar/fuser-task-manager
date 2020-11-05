@@ -1,7 +1,5 @@
 package com.wsw.fusertaskmanager.rabbitmq;
 
-
-import com.wsw.fusertaskmanager.service.LocalMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -21,8 +19,6 @@ import org.springframework.stereotype.Service;
 public class RabbitService implements ConfirmCallback, ReturnCallback {
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private LocalMessageService localMessageService;
 
     // 发送消息
     public void sendMessage(Long localMessageId, Object message) {
@@ -43,7 +39,7 @@ public class RabbitService implements ConfirmCallback, ReturnCallback {
         Long localMessageId = Long.valueOf(correlationData.getId());
         if (ack) {
             // 消息发送成功,更新本地消息为已成功发送状态或者直接删除该本地消息记录,剩余的由MQ投递到消费者端，消费者端需要进行幂等，避免产生脏数据
-            localMessageService.updateLocalMessage(localMessageId, 1);
+            log.info("ack: " + ack);
         } else {
             // 失败处理
             log.info("ack: " + ack);
