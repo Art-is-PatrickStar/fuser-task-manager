@@ -1,4 +1,4 @@
-package com.wsw.fusertaskmanager.entities;
+package com.wsw.fusertaskmanager.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,13 +8,16 @@ import java.io.Serializable;
 
 /**
  * @Author WangSongWen
- * @Date: Created in 10:00 2020/10/10
+ * @Date: Created in 17:45 2020/10/27
  * @Description:
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment implements Serializable {
+public class Account implements Serializable {
     private Long id;
-    private String serial;
+    private Long userId;
+    private Integer total;
+    private Integer used;
+    private Integer residue;
 }
