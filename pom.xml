@@ -14,6 +14,7 @@
     <module>manager-task-service</module>
     <module>manager-mq-service</module>
     <module>manager-account-service</module>
+    <module>manager-storage-service</module>
 </modules>
 
 <!-- 统一管理jar包版本 -->
