@@ -23,8 +23,7 @@ Java1.8
 2. 配置中心 Nacos
 3. 服务调用 OpenFeign
 4. 负载均衡 Ribbon
-5. 服务降级 Sentinel
+5. 服务限流降级 Sentinel
 6. 网关 Gateway
-7. 服务配置 Nacos
-8. 服务总线 Nacos
+7. 服务总线 SpringCloud Bus
 ```
