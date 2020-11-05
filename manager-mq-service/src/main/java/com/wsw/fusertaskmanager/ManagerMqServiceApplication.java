@@ -1,4 +1,4 @@
-package com.wsw.managermqservice;
+package com.wsw.fusertaskmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
