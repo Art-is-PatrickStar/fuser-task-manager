@@ -11,6 +11,7 @@
 
 <modules>
     <module>manager-api-commons</module>
+    <module>manager-task-service</module>
 </modules>
 
 <!-- 统一管理jar包版本 -->
