@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task implements Serializable {
-    private Long taskId;
+    private Long taskId;  // 任务唯一性ID
     private String taskName;  // 任务名称
     private String taskCaption;  // 任务描述
     private Integer createDate;  // 创建日期
