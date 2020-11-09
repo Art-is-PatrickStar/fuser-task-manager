@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Date: Created in 16:45 2020/10/27
  * @Description: 库存服务接口
  */
-@FeignClient(value = "wsw-cloud-storage-service")
+@FeignClient(value = "manager-storage-service")
 public interface StorageService {
     /**
      * feign服务调用 减库存接口

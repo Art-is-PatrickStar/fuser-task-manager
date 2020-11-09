@@ -10,7 +10,7 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
     </resultMap>
 
-    <insert id="create" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" parameterType="com.wsw.fusertaskmanager.domain.Order" useGeneratedKeys="true" keyProperty="id">
         insert into t_order(user_id, product_id, count, money, status) values(#{userId}, #{productId}, #{count}, #{money}, 0);
     </insert>
 

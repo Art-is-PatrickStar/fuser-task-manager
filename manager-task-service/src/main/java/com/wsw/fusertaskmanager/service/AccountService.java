@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @Date: Created in 16:44 2020/10/27
  * @Description: 账户服务接口
  */
-@FeignClient(value = "wsw-cloud-account-service")
+@FeignClient(value = "manager-account-service")
 public interface AccountService {
     /**
      * feign服务调用 扣减账户接口
