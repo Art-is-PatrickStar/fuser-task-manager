@@ -1,0 +1,33 @@
+package com.wsw.fusertaskmanager.mapper;
+
+import com.wsw.fusertaskmanager.domain.Task;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @Author WangSongWen
+ * @Date: Created in 14:29 2020/11/9
+ * @Description:
+ */
+@Mapper
+public interface TaskMapper {
+    int createTask(Task task);
+
+    int updateTaskById(Task task, @Param("taskId") Long taskId);
+
+    int updateTaskByName(Task task, @Param("taskName") String taskName);
+
+    int updateTaskStatusByTaskId(@Param("taskId") Long taskId, @Param("taskStatus") char taskStatus);
+
+    int deleteTaskByTaskId(@Param("taskId") Long taskId);
+
+    int deleteTaskByTaskName(@Param("taskName") String taskName);
+
+    Task selectTaskById(@Param("taskId") Long taskId);
+
+    Task selectTaskByName(@Param("taskName") String taskName);
+
+    List<Task> selectTaskByStatus(@Param("taskStatus") char taskStatus);
+}
