@@ -12,7 +12,8 @@ spring:
             config:
                 server-addr: localhost:8848  # nacos配置中心地址
                 file-extension: yaml  # 配置文件格式
-                group: LOCAL_GROUP
+                #group: LOCAL_GROUP
+                group: TEST_GROUP
 
         sentinel:
             transport:
@@ -24,7 +25,8 @@ spring:
                     nacos:
                         server-addr: localhost:8848
                         dataId: manager-task-service
-                        groupId: DEFAULT_GROUP
+                        #groupId: DEFAULT_GROUP
+                        groupId: TEST_GROUP
                         data-type: json
                         rule-type: flow
 
