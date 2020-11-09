@@ -36,4 +36,4 @@ ribbon:
     ConnectTimeout: 20000
 #    eager-load:
 #        enabled: true
-#        clients: manager-task-service
+#        clients: manager-task-service, manager-account-service, manager-storage-service
