@@ -27,3 +27,17 @@ Java1.8
 6. 网关 Gateway
 7. 服务总线 SpringCloud Bus
 ```
+
+## 程序运行
+### 本地环境
+```text
+最新版本即可
+1. Nacos
+cd bin -> .\startup.cmd
+
+2. Sentinel(jar包)
+自定义端口启动 -> java -jar .\sentinel-dashboard-1.8.0.jar --server.port=9090
+
+3. RabbitMQ
+省略
+```
