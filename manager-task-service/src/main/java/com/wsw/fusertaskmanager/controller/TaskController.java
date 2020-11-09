@@ -13,16 +13,23 @@ import java.util.List;
 /**
  * @Author WangSongWen
  * @Date: Created in 15:03 2020/11/9
- * @Description:
+ * @Description: 前后端交互接口
+ *
+ * 1. Get请求
+ *    1.1 xxx/task/select/{taskId}形式 -> @PathVariable("taskId")
+ *    1.2 xxx/task/select?taskId=1形式 -> @RequestParam("taskId")
+ * 2. Post请求
+ *    前台请求参数设置 -> contentType: "application/json" -> xxx/task/create形式 -> @RequestBody
  */
 @RestController
 @Slf4j
+@RequestMapping("/task")
 public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @PostMapping("/task/create")
-    public CommonResult createTask(Task task) {
+    @PostMapping("/create")
+    public CommonResult createTask(@RequestBody Task task) {
         int result = taskService.createTask(task);
         if (result > 0){
             return new CommonResult(200, "任务创建成功!", result);
@@ -31,8 +38,9 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/task/update/byid")
-    public CommonResult updateTaskById(Task task, Long taskId){
+    @PutMapping("/update/byid")
+    public CommonResult updateTaskById(@RequestBody Task task){
+        Long taskId = task.getTaskId();
         int result = taskService.updateTaskById(task, taskId);
         if (result > 0){
             return new CommonResult(200, "任务更新成功!", result);
@@ -41,8 +49,9 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/task/update/byname")
-    public CommonResult updateTaskByName(Task task, String taskName){
+    @PutMapping("/update/byname")
+    public CommonResult updateTaskByName(@RequestBody Task task){
+        String taskName = task.getTaskName();
         int result = taskService.updateTaskByName(task, taskName);
         if (result > 0){
             return new CommonResult(200, "任务更新成功!", result);
@@ -51,8 +60,8 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/task/updatestatus/byid")
-    public CommonResult updateTaskStatusByTaskId(Long taskId, char taskStatus){
+    @GetMapping("/updatestatus/byid")
+    public CommonResult updateTaskStatusByTaskId(@RequestParam("taskId") Long taskId, @RequestParam("taskStatus") char taskStatus){
         int result = taskService.updateTaskStatusByTaskId(taskId, taskStatus);
         if (result > 0){
             return new CommonResult(200, "任务状态更新成功!", result);
@@ -61,8 +70,8 @@ public class TaskController {
         }
     }
 
-    @DeleteMapping("/task/delete/byid")
-    public CommonResult deleteTaskByTaskId(Long taskId){
+    @DeleteMapping("/delete/byid")
+    public CommonResult deleteTaskByTaskId(@RequestParam("taskId") Long taskId){
         int result = taskService.deleteTaskByTaskId(taskId);
         if (result > 0){
             return new CommonResult(200, "任务删除成功!", result);
@@ -71,8 +80,8 @@ public class TaskController {
         }
     }
 
-    @DeleteMapping("/task/delete/byid")
-    public CommonResult deleteTaskByTaskName(String taskName){
+    @DeleteMapping("/delete/byname")
+    public CommonResult deleteTaskByTaskName(@RequestParam("taskName") String taskName){
         int result = taskService.deleteTaskByTaskName(taskName);
         if (result > 0){
             return new CommonResult(200, "任务删除成功!", result);
