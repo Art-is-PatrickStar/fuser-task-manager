@@ -27,11 +27,11 @@
 
     <update id="updateTaskByName">
         update task set task_caption=#{taskCaption}, create_date=#{createDate}, task_status=#{taskStatus}, recepient_id=#{recepientId},
-        recepient_name=#{recepientName}, tester_id=#{testerId}, tester_name=#{testerName}, archive=#{archive}, modify_date=#{modifyDate} where task_name=#{TaskName}
+        recepient_name=#{recepientName}, tester_id=#{testerId}, tester_name=#{testerName}, archive=#{archive}, modify_date=#{modifyDate} where task_name=#{taskName}
     </update>
 
     <update id="updateTaskStatusByTaskId">
-        update task set task_status=#{taskStatus} where task_id=#{TaskId}
+        update task set task_status=#{taskStatus} where task_id=#{taskId}
     </update>
 
     <select id="selectTaskById" resultMap="BaseResultMap">

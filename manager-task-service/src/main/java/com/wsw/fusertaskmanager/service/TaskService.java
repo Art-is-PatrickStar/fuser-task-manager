@@ -12,9 +12,9 @@ import java.util.List;
 public interface TaskService {
     int createTask(Task task);
 
-    int updateTaskById(Task task, Long taskId);
+    int updateTaskById(Task task);
 
-    int updateTaskByName(Task task, String taskName);
+    int updateTaskByName(Task task);
 
     int updateTaskStatusByTaskId(Long taskId, char taskStatus);
 
@@ -24,7 +24,7 @@ public interface TaskService {
 
     Task selectTaskById(Long taskId);
 
-    Task selectTaskByName(String taskName);
+    List<Task> selectTaskByName(String taskName);
 
     List<Task> selectTaskByStatus(char taskStatus);
 

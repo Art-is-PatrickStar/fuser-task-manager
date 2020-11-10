@@ -15,9 +15,9 @@ import java.util.List;
 public interface TaskMapper {
     int createTask(Task task);
 
-    int updateTaskById(Task task, @Param("taskId") Long taskId);
+    int updateTaskById(Task task);
 
-    int updateTaskByName(Task task, @Param("taskName") String taskName);
+    int updateTaskByName(Task task);
 
     int updateTaskStatusByTaskId(@Param("taskId") Long taskId, @Param("taskStatus") char taskStatus);
 
@@ -27,7 +27,7 @@ public interface TaskMapper {
 
     Task selectTaskById(@Param("taskId") Long taskId);
 
-    Task selectTaskByName(@Param("taskName") String taskName);
+    List<Task> selectTaskByName(@Param("taskName") String taskName);
 
     List<Task> selectTaskByStatus(@Param("taskStatus") char taskStatus);
 }

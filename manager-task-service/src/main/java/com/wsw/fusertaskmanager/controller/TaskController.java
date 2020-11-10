@@ -40,8 +40,7 @@ public class TaskController {
 
     @PutMapping("/update/byid")
     public CommonResult updateTaskById(@RequestBody Task task){
-        Long taskId = task.getTaskId();
-        int result = taskService.updateTaskById(task, taskId);
+        int result = taskService.updateTaskById(task);
         if (result > 0){
             return new CommonResult(200, "任务更新成功!", result);
         }else {
@@ -51,8 +50,7 @@ public class TaskController {
 
     @PutMapping("/update/byname")
     public CommonResult updateTaskByName(@RequestBody Task task){
-        String taskName = task.getTaskName();
-        int result = taskService.updateTaskByName(task, taskName);
+        int result = taskService.updateTaskByName(task);
         if (result > 0){
             return new CommonResult(200, "任务更新成功!", result);
         }else {
@@ -90,7 +88,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/task/select/{taskId}")
+    @GetMapping("/select/byid/{taskId}")
     public CommonResult selectTaskById(@PathVariable("taskId") Long taskId){
         Task task = taskService.selectTaskById(taskId);
         if (null != task){
@@ -100,17 +98,17 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/task/select/{taskName}")
-    public CommonResult selectTaskByName(@PathVariable("taskName") String taskName){
-        Task task = taskService.selectTaskByName(taskName);
-        if (null != task){
-            return new CommonResult(200, "获取任务成功!", task);
+    @GetMapping("/select/byname")
+    public CommonResult selectTaskByName(@RequestParam("taskName") String taskName){
+        List<Task> tasks = taskService.selectTaskByName(taskName);
+        if (CollectionUtil.isNotEmpty(tasks)){
+            return new CommonResult(200, "获取任务成功!", tasks);
         }else {
             return new CommonResult(500, "获取任务失败!", null);
         }
     }
 
-    @GetMapping("/task/select/{taskStatus}")
+    @GetMapping("/select/bystatus/{taskStatus}")
     public CommonResult selectTaskByStatus(@PathVariable("taskStatus") char taskStatus){
         List<Task> tasks = taskService.selectTaskByStatus(taskStatus);
         if (CollectionUtil.isNotEmpty(tasks)){

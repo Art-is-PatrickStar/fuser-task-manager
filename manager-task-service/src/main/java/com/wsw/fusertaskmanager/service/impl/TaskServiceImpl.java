@@ -24,13 +24,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int updateTaskById(Task task, Long taskId) {
-        return taskMapper.updateTaskById(task, taskId);
+    public int updateTaskById(Task task) {
+        return taskMapper.updateTaskById(task);
     }
 
     @Override
-    public int updateTaskByName(Task task, String taskName) {
-        return taskMapper.updateTaskByName(task, taskName);
+    public int updateTaskByName(Task task) {
+        return taskMapper.updateTaskByName(task);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task selectTaskByName(String taskName) {
+    public List<Task> selectTaskByName(String taskName) {
         return taskMapper.selectTaskByName(taskName);
     }
 
