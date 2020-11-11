@@ -1,7 +1,7 @@
 package com.wsw.fusertaskmanager.controller;
 
 
-import com.wsw.fusertaskmanager.domain.CommonResult;
+import com.wsw.fusertaskmanager.api.CommonResult;
 import com.wsw.fusertaskmanager.domain.Order;
 import com.wsw.fusertaskmanager.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;

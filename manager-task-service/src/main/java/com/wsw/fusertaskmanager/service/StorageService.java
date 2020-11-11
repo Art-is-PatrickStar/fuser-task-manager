@@ -1,6 +1,6 @@
 package com.wsw.fusertaskmanager.service;
 
-import com.wsw.fusertaskmanager.domain.CommonResult;
+import com.wsw.fusertaskmanager.api.CommonResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
