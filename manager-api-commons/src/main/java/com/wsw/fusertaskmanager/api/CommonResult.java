@@ -1,4 +1,4 @@
-package com.wsw.fusertaskmanager.domain;
+package com.wsw.fusertaskmanager.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
