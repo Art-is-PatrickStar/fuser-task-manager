@@ -1,0 +1,16 @@
+server:
+    port: 2004
+
+spring:
+    application:
+        name: manager-gateway-service
+
+    cloud:
+        nacos:
+            discovery:
+                server-addr: localhost:8848  # 配置nacos地址
+            config:
+                server-addr: localhost:8848  # nacos配置中心地址
+                file-extension: yaml  # 配置文件格式
+                #group: LOCAL_GROUP
+                group: TEST_GROUP
