@@ -32,89 +32,80 @@ public class TaskController {
     public CommonResult createTask(@RequestBody Task task) {
         int result = taskService.createTask(task);
         if (result > 0){
-            return new CommonResult(200, "任务创建成功!", result);
-        }else {
-            return new CommonResult(500, "任务创建失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @PutMapping("/update/byid")
     public CommonResult updateTaskById(@RequestBody Task task){
         int result = taskService.updateTaskById(task);
         if (result > 0){
-            return new CommonResult(200, "任务更新成功!", result);
-        }else {
-            return new CommonResult(500, "任务更新失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @PutMapping("/update/byname")
     public CommonResult updateTaskByName(@RequestBody Task task){
         int result = taskService.updateTaskByName(task);
         if (result > 0){
-            return new CommonResult(200, "任务更新成功!", result);
-        }else {
-            return new CommonResult(500, "任务更新失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @GetMapping("/updatestatus/byid")
     public CommonResult updateTaskStatusByTaskId(@RequestParam("taskId") Long taskId, @RequestParam("taskStatus") char taskStatus){
         int result = taskService.updateTaskStatusByTaskId(taskId, taskStatus);
         if (result > 0){
-            return new CommonResult(200, "任务状态更新成功!", result);
-        }else {
-            return new CommonResult(500, "任务状态更新失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @DeleteMapping("/delete/byid")
     public CommonResult deleteTaskByTaskId(@RequestParam("taskId") Long taskId){
         int result = taskService.deleteTaskByTaskId(taskId);
         if (result > 0){
-            return new CommonResult(200, "任务删除成功!", result);
-        }else {
-            return new CommonResult(500, "任务删除失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @DeleteMapping("/delete/byname")
     public CommonResult deleteTaskByTaskName(@RequestParam("taskName") String taskName){
         int result = taskService.deleteTaskByTaskName(taskName);
         if (result > 0){
-            return new CommonResult(200, "任务删除成功!", result);
-        }else {
-            return new CommonResult(500, "任务删除失败!", null);
+            return CommonResult.success(result);
         }
+        return CommonResult.failed();
     }
 
     @GetMapping("/select/byid/{taskId}")
     public CommonResult selectTaskById(@PathVariable("taskId") Long taskId){
         Task task = taskService.selectTaskById(taskId);
         if (null != task){
-            return new CommonResult(200, "获取任务成功!", task);
-        }else {
-            return new CommonResult(500, "获取任务失败!", null);
+            return CommonResult.success(task);
         }
+        return CommonResult.failed();
     }
 
     @GetMapping("/select/byname")
     public CommonResult selectTaskByName(@RequestParam("taskName") String taskName){
         List<Task> tasks = taskService.selectTaskByName(taskName);
         if (CollectionUtil.isNotEmpty(tasks)){
-            return new CommonResult(200, "获取任务成功!", tasks);
-        }else {
-            return new CommonResult(500, "获取任务失败!", null);
+            return CommonResult.success(tasks);
         }
+        return CommonResult.failed();
     }
 
     @GetMapping("/select/bystatus/{taskStatus}")
     public CommonResult selectTaskByStatus(@PathVariable("taskStatus") char taskStatus){
         List<Task> tasks = taskService.selectTaskByStatus(taskStatus);
         if (CollectionUtil.isNotEmpty(tasks)){
-            return new CommonResult(200, "获取任务成功!", tasks);
-        }else {
-            return new CommonResult(500, "获取任务失败!", null);
+            return CommonResult.success(tasks);
         }
+        return CommonResult.failed();
     }
 }

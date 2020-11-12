@@ -3,7 +3,7 @@ package com.wsw.fusertaskmanager.api;
 /**
  * @Author WangSongWen
  * @Date: Created in 15:04 2020/11/11
- * @Description:
+ * @Description: 枚举一些常用的API操作码
  */
 public enum ResultCode implements IErrorCode{
     SUCCESS(200, "操作成功"),
@@ -11,16 +11,16 @@ public enum ResultCode implements IErrorCode{
     VALIDATE_FAILED(404, "参数检验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
     FORBIDDEN(403, "没有相关权限");
-    private final long code;
+    private final Integer code;
     private final String message;
 
-    private ResultCode(long code, String message) {
+    private ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
     @Override
-    public long getCode() {
+    public Integer getCode() {
         return code;
     }
 

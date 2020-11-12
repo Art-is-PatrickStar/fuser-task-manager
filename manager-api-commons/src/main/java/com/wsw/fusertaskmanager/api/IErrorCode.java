@@ -3,10 +3,10 @@ package com.wsw.fusertaskmanager.api;
 /**
  * @Author WangSongWen
  * @Date: Created in 14:59 2020/11/11
- * @Description: 封装API错误码
+ * @Description: 封装API操作码及信息
  */
 public interface IErrorCode {
-    long getCode();
+    Integer getCode();
 
     String getMessage();
 }
