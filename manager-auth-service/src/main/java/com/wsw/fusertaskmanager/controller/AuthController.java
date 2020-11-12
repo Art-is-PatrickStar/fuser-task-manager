@@ -1,7 +1,7 @@
 package com.wsw.fusertaskmanager.controller;
 
 import com.wsw.fusertaskmanager.api.CommonResult;
-import com.wsw.fusertaskmanager.dto.User;
+import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +21,12 @@ public class AuthController {
 
     @PostMapping("/auth")
     public CommonResult auth(@RequestParam("username") String username, @RequestParam("password") String password){
-        User user = authService.auth(username, password);
+        User user = null;
+        try {
+            user = authService.auth(username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (null != user){
             return CommonResult.success(user);
         }

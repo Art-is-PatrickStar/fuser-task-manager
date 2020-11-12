@@ -1,6 +1,6 @@
 package com.wsw.fusertaskmanager.service.impl;
 
-import com.wsw.fusertaskmanager.dto.User;
+import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.mapper.AuthMapper;
 import com.wsw.fusertaskmanager.service.AuthService;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User auth(String username, String password) {
         User user = authMapper.getUserByUAP(username, password);
+        if (null == user){
+            throw new SecurityException("用户名或密码错误!");
+        }
         return user;
     }
 }

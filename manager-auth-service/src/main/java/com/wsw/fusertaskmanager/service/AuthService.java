@@ -1,7 +1,6 @@
 package com.wsw.fusertaskmanager.service;
 
-import com.wsw.fusertaskmanager.dto.User;
-import org.apache.ibatis.annotations.Param;
+import com.wsw.fusertaskmanager.domain.User;
 
 /**
  * @Author WangSongWen

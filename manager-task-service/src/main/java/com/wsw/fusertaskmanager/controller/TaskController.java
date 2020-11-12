@@ -2,7 +2,6 @@ package com.wsw.fusertaskmanager.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.wsw.fusertaskmanager.api.CommonResult;
-import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
