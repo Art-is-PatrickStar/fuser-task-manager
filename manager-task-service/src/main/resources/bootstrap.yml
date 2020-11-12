@@ -16,6 +16,7 @@ spring:
                 group: TEST_GROUP
 
         sentinel:
+            eager: true  # 取消控制台懒加载
             transport:
                 dashboard: localhost:9090  # sentinel dashboard地址
                 port: 8719  # sentinel api port
