@@ -8,7 +8,7 @@ spring:
     boot:
         admin:
             client:
-                url: http:localhost:2001  # admin·şÎñ¶ËµØÖ·
+                url: http:localhost:2001  # adminæœåŠ¡ç«¯åœ°å€
 management:
     endpoints:
         web:
@@ -16,12 +16,12 @@ management:
                 include: '*'
     endpoint:
         health:
-            show-details: always  # Õ¹Ê¾ÏêÇé
+            show-details: always  # å±•ç¤ºè¯¦æƒ…
 
-# ¹ıÂË²»ĞèÒªÈÏÖ¤Â·¾¶Ìõ¼ş
+# è¿‡æ»¤ä¸éœ€è¦è®¤è¯è·¯å¾„æ¡ä»¶
 secure:
     ignored:
-        urls: #°²È«Â·¾¶°×Ãûµ¥
+        urls: #å®‰å…¨è·¯å¾„ç™½åå•
             - /swagger-ui.html
             - /swagger-resources/**
             - /swagger/**
@@ -38,3 +38,17 @@ secure:
             - /admin/info
             - /admin/logout
             - /minio/upload
+
+jwt:
+    tokenHeader: Authorization
+    secret: mall-admin-secret
+    expiration: 604800
+    tokenHead: Bearer
+redis:
+    database: mall
+    key:
+        admin: 'ums:admin'
+        token: 'ums:token'
+        resourceList: 'ums:resourceList'
+    expire:
+        common: 86400 # 24å°æ—¶
