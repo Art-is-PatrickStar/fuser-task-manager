@@ -41,9 +41,10 @@ spring:
                   # gateway自动从Nacos获取manager-task-service可用节点进行转发
                   # 默认会将所有gateway uri转发
                   uri: lb://manager-task-service
-                  predicates:
+                  predicates:  # 谓词
                       - Path=/mts/**  # 1998/mts/task/select/byid -> 2001/mts/task/select/byid
-                  filters:
+                      - After=2020-11-12T00:00:00.000+08:00[Asia/Shanghai]  # 2020-11-12后该微服务才上线，暴露接口
+                  filters:  # 过滤器
                       - StripPrefix=1  # 忽略掉第一层前缀进行转发 1998/mts/task/select/byid -> 2001/task/select/byid
 
 #            globalcors:
