@@ -2,6 +2,7 @@ package com.wsw.fusertaskmanager.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -18,6 +19,7 @@ import java.time.Duration;
  * @Description: redis缓存设置
  */
 @Configuration
+@EnableCaching
 public class RedisConfig {
     /**
      * 缓存管理器

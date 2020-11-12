@@ -38,6 +38,7 @@
     <spring.boot.admin.version>2.1.6</spring.boot.admin.version>
     <hutool.version>5.1.0</hutool.version>
     <jjwt.version>0.9.0</jjwt.version>
+    <commons-pool2>2.8.1</commons-pool2>
 </properties>
 
 <distributionManagement>
@@ -103,6 +104,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons-pool2}</version>
         </dependency>
         <!-- spring boot admin client -->
         <dependency>
