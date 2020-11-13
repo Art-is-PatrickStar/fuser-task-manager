@@ -3,10 +3,7 @@ server:
 
 spring:
     profiles:
-        # active: local  # 本地环境
         active: test  # 测试环境
-        # active: dev  # 开发环境
-        # active: prod  # 线上环境
     application:
         name: manager-gateway-service
     cloud:
@@ -42,18 +39,22 @@ spring:
                   # 默认会将所有gateway uri转发
                   uri: lb://manager-task-service
                   predicates:  # 谓词
-                      - Path=/mts/**  # 1998/mts/task/select/byid -> 2001/mts/task/select/byid
+                      - Path=/manager-task-service/**  # 1998/manager-task-service/task/select/byid -> 2001/manager-task-service/task/select/byid
                       - After=2020-11-12T00:00:00.000+08:00[Asia/Shanghai]  # 2020-11-12后该微服务才上线，暴露接口
                   filters:  # 过滤器
-                      - StripPrefix=1  # 忽略掉第一层前缀进行转发 1998/mts/task/select/byid -> 2001/task/select/byid
+                      - StripPrefix=1  # 忽略掉第一层前缀进行转发 1998/manager-task-service/task/select/byid -> 2001/task/select/byid
 
-#            globalcors:
-#                cors-configurations:
-#                    '[/**]':
-#                        # 这里有个allowCredentials: true这个东西是设置允许访问携带cookie的，这点一定要和前端对应！
-#                        allowCredentials: true
-#                        # 可以填写多个域名用","隔开 例如 "*"代表允许所有
-#                        allowedOrigins: "*"
-#                        allowedMethods: "*"
-#                        allowedHeaders: "*"
-#                        allow-credentials: true
+            globalcors:
+                cors-configurations:
+                    '[/**]':  # gateway网关上所有URI都应用以下跨域设计
+                        allow-credentials: true  # 允许携带认证信息
+                        allowed-origins:
+                            - "*"  # 允许所有来源进行跨域访问
+                        allowed-headers: "*"  # 允许跨域请求里的head字段
+                        allowed-methods:
+                            - GET
+                            - POST
+                            - PUT
+                            - DELETE
+                            - OPTIONS
+                        max-age: 3600  # 缓存时长 1小时
