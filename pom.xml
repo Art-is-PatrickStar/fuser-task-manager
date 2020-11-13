@@ -38,7 +38,6 @@
     <fastjson.version>1.2.73</fastjson.version>
     <spring.boot.admin.version>2.1.6</spring.boot.admin.version>
     <hutool.version>5.1.0</hutool.version>
-    <jjwt.version>0.9.0</jjwt.version>
     <commons-pool2>2.8.1</commons-pool2>
 </properties>
 
@@ -127,12 +126,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
-        </dependency>
-        <!--JWT(Json Web Token)登录支持-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
         </dependency>
     </dependencies>
 </dependencyManagement>
