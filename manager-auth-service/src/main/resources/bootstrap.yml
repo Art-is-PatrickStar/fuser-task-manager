@@ -3,10 +3,7 @@ server:
 
 spring:
     profiles:
-        # active: local  # 本地环境
         active: test  # 测试环境
-        # active: dev  # 开发环境
-        # active: prod  # 线上环境
     application:
         name: manager-auth-service
     cloud:
@@ -27,7 +24,7 @@ mybatis:
     mapper-locations: classpath:mapper/*.xml
     type-aliases-package: com.wsw.fusertaskmanager.domain
 
-app:
+jwt:
     secretKey: 1234567890-1234567890-1234567890
 
 management:

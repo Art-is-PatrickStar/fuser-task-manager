@@ -28,7 +28,7 @@ public class AuthController {
     @Resource
     private AuthService authService;
 
-    @Value("${app.secretKey}")
+    @Value("${jwt.secretKey}")
     private String key;
 
     @PostMapping("/auth")

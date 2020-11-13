@@ -41,5 +41,5 @@ ribbon:
 #        enabled: true
 #        clients: manager-task-service, manager-account-service, manager-storage-service
 
-app:
+jwt:
     secretKey: 1234567890-1234567890-1234567890

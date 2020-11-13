@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class JwtTokenInterceptor implements HandlerInterceptor {
-    @Value("${app.secretKey}")
+    @Value("${jwt.secretKey}")
     private String key;
 
     @Override
