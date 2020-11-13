@@ -1,9 +1,11 @@
 package com.wsw.fusertaskmanager.interceptor;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.annotation.JwtToken;
 import com.wsw.fusertaskmanager.api.CommonResult;
+import com.wsw.fusertaskmanager.domain.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -16,6 +18,7 @@ import sun.misc.BASE64Encoder;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -48,17 +51,33 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             String token = request.getHeader("token");
             if (null == token){
                 // token不存在
-                response.setStatus(401);
-                CommonResult<Object> commonResult = CommonResult.unauthorized();
-                String json = objectMapper.writeValueAsString(commonResult);
-                response.getWriter().println(json);
-                return false;
+                JwtToken jwtToken = method.getAnnotation(JwtToken.class);
+                if (jwtToken.required()){  // required属性为true
+                    response.setStatus(401);
+                    CommonResult<Object> commonResult = CommonResult.unauthorized();
+                    String json = objectMapper.writeValueAsString(commonResult);
+                    response.getWriter().println(json);
+                    return false;
+                }
             }else {
                 // token存在，验证有效性
                 String base64 = new BASE64Encoder().encode(key.getBytes());
                 SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
                 try {
-                    Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+                    Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+                    String userJson = claimsJws.getBody().getSubject();
+                    log.info(userJson);
+                    User user = objectMapper.readValue(userJson, User.class);
+                    request.setAttribute("$user", user);
+                    return true;
+                } catch (JsonProcessingException e){
+                    // json转换失败抛出异常
+                    e.printStackTrace();
+                    response.setStatus(500);
+                    CommonResult<Object> commonResult = CommonResult.failed("Json转换异常");
+                    String json = objectMapper.writeValueAsString(commonResult);
+                    response.getWriter().println(json);
+                    return false;
                 } catch (JwtException e) {
                     // 验证失败抛出异常
                     e.printStackTrace();

@@ -13,4 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})  // 此注解只能用在方法上
 @Retention(RetentionPolicy.RUNTIME)  // 运行时注解生效
 public @interface JwtToken {
+    // required为true 说明请求必须包含token,不包含报错
+    // required为false 说明token不是必须的,不会中断请求的传递,交由业务代码处理
+    boolean required() default true;
 }

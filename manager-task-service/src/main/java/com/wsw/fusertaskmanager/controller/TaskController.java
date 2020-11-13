@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.wsw.fusertaskmanager.annotation.JwtToken;
 import com.wsw.fusertaskmanager.api.CommonResult;
 import com.wsw.fusertaskmanager.domain.Task;
+import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,9 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping("/dosth")
-    @JwtToken
-    public CommonResult dosth(){
+    @JwtToken(required = true)
+    public CommonResult dosth(@RequestAttribute(value = "$user", required = false) User user){
+        System.out.println(user);
         return CommonResult.success("TaskController.dosth");
     }
 
