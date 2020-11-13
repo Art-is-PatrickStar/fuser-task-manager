@@ -1,5 +1,7 @@
 package com.wsw.fusertaskmanager.service;
 
+import com.wsw.fusertaskmanager.domain.Task;
+
 import java.util.List;
 
 /**

@@ -1,5 +1,6 @@
 package com.wsw.fusertaskmanager.service.impl;
 
+import com.wsw.fusertaskmanager.domain.Order;
 import com.wsw.fusertaskmanager.mapper.OrderMapper;
 import com.wsw.fusertaskmanager.service.AccountService;
 import com.wsw.fusertaskmanager.service.OrderService;

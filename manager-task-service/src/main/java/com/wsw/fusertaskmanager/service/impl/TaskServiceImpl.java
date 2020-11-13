@@ -1,5 +1,6 @@
 package com.wsw.fusertaskmanager.service.impl;
 
+import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.mapper.TaskMapper;
 import com.wsw.fusertaskmanager.service.TaskService;
 import org.springframework.cache.annotation.CacheConfig;

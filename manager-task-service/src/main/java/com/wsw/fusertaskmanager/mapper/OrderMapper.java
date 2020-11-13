@@ -1,5 +1,6 @@
 package com.wsw.fusertaskmanager.mapper;
 
+import com.wsw.fusertaskmanager.domain.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,7 +1,9 @@
 package com.wsw.fusertaskmanager.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.wsw.fusertaskmanager.annotation.JwtToken;
 import com.wsw.fusertaskmanager.api.CommonResult;
+import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ import java.util.List;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+
+    @GetMapping("/dosth")
+    @JwtToken
+    public CommonResult dosth(){
+        return CommonResult.success("TaskController.dosth");
+    }
 
     @PostMapping("/create")
     public CommonResult createTask(@RequestBody Task task) {
