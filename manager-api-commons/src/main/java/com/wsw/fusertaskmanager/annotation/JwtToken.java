@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @Date: Created in 10:40 2020/11/13
  * @Description: 自定义token验证注解
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})  // 此注解只能用在方法上
+@Retention(RetentionPolicy.RUNTIME)  // 运行时注解生效
 public @interface JwtToken {
 }

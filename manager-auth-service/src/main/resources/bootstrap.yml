@@ -28,7 +28,7 @@ mybatis:
     type-aliases-package: com.wsw.fusertaskmanager.domain
 
 app:
-    secret: 1234567890-1234567890-1234567890
+    secretKey: 1234567890-1234567890-1234567890
 
 management:
     endpoints:
