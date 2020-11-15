@@ -1,10 +1,8 @@
-server:
-    port: 2001
-
 spring:
     application:
         name: manager-task-service
-
+    profiles:
+        active: dev  # 开发环境
     cloud:
         nacos:
             discovery:
@@ -12,8 +10,11 @@ spring:
             config:
                 server-addr: localhost:8848  # nacos配置中心地址
                 file-extension: yaml  # 配置文件格式
-                #group: LOCAL_GROUP
-                group: TEST_GROUP
+                group: DEFAULT_GROUP
+                ext-config:
+                    - data-id: manager-${spring.profiles.active}.yaml
+                      group: DEFAULT_GROUP
+                      refresh: true  # 是否允许自动刷新
 
         sentinel:
             eager: true  # 取消控制台懒加载
@@ -26,8 +27,7 @@ spring:
                     nacos:
                         server-addr: localhost:8848
                         dataId: manager-task-service
-                        #groupId: DEFAULT_GROUP
-                        groupId: TEST_GROUP
+                        groupId: DEFAULT_GROUP
                         data-type: json
                         rule-type: flow
 
@@ -40,6 +40,3 @@ ribbon:
 #    eager-load:
 #        enabled: true
 #        clients: manager-task-service, manager-account-service, manager-storage-service
-
-jwt:
-    secretKey: 1234567890-1234567890-1234567890
