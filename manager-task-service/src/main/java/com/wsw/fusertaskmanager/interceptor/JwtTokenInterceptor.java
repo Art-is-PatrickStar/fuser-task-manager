@@ -81,8 +81,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JwtException e) {
                     // 验证失败抛出异常
                     e.printStackTrace();
-                    response.setStatus(401);
-                    CommonResult<Object> commonResult = CommonResult.unauthorized();
+                    response.setStatus(404);
+                    CommonResult<Object> commonResult = CommonResult.validateFailed();
                     String json = objectMapper.writeValueAsString(commonResult);
                     response.getWriter().println(json);
                     return false;
