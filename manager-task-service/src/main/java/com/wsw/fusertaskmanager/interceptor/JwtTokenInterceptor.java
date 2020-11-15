@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.annotation.JwtToken;
 import com.wsw.fusertaskmanager.api.CommonResult;
+import com.wsw.fusertaskmanager.config.AuthConfig;
 import com.wsw.fusertaskmanager.domain.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +16,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import sun.misc.BASE64Encoder;
 
+import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,11 +30,12 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class JwtTokenInterceptor implements HandlerInterceptor {
-    @Value("${jwt.secretKey}")
-    private String key;
+    @Resource
+    private AuthConfig authConfig;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String tokenKey = authConfig.getKey();
         log.info("JwtTokenInterceptor.preHandle");
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)){
@@ -61,7 +64,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 }
             }else {
                 // token存在，验证有效性
-                String base64 = new BASE64Encoder().encode(key.getBytes());
+                String base64 = new BASE64Encoder().encode(tokenKey.getBytes());
                 SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
                 try {
                     Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);

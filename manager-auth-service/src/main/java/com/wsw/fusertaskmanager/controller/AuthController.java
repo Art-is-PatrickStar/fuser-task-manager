@@ -3,6 +3,7 @@ package com.wsw.fusertaskmanager.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.api.CommonResult;
+import com.wsw.fusertaskmanager.config.AuthConfig;
 import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import io.jsonwebtoken.Jwts;
@@ -27,12 +28,12 @@ import java.util.Map;
 public class AuthController {
     @Resource
     private AuthService authService;
-
-    @Value("${jwt.secretKey}")
-    private String key;
+    @Resource
+    private AuthConfig authConfig;
 
     @PostMapping("/auth")
     public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password){
+        String tokenKey = authConfig.getKey();
         CommonResult<Map> commonResult = null;
         try {
             Map<String, Object> map = new LinkedHashMap<>();
@@ -45,7 +46,7 @@ public class AuthController {
             String userString = objectMapper.writeValueAsString(user);
 
             // 对密匙进行Base64编码
-            String base64 = new BASE64Encoder().encode(key.getBytes());
+            String base64 = new BASE64Encoder().encode(tokenKey.getBytes());
             // 生成密匙对象,会根据base64长度自动选择相应的HMAC算法
             SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
             // 利用jwt生成token
