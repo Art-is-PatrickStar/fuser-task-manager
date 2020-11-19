@@ -11,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Encoder;
 
@@ -32,6 +33,7 @@ public class AuthController {
     private AuthConfig authConfig;
 
     @PostMapping("/auth")
+    @ResponseBody
     public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password){
         String tokenKey = authConfig.getKey();
         CommonResult<Map> commonResult = null;
