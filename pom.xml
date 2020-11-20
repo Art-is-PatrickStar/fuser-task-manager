@@ -13,10 +13,10 @@
     <module>manager-api-commons</module>
     <module>manager-task-service</module>
     <module>manager-mq-service</module>
-    <module>manager-account-service</module>
-    <module>manager-storage-service</module>
     <module>manager-gateway-service</module>
     <module>manager-auth-service</module>
+    <module>manager-tester-service</module>
+    <module>manager-recepienter-service</module>
 </modules>
 
 <!-- 统一管理jar包版本 -->
