@@ -1,11 +1,8 @@
-server:
-    port: 2003
-
 spring:
-    application:
-        name: manager-account-service
     profiles:
-        active: local
+        active: dev
+    application:
+        name: manager-tester-service
 
     cloud:
         nacos:
@@ -14,7 +11,7 @@ spring:
             config:
                 server-addr: localhost:8848  # nacos配置中心地址
                 file-extension: yaml  # 配置文件格式
-                group: LOCAL_GROUP
+                group: DEFAULT_GROUP
 
         sentinel:
             transport:
@@ -25,7 +22,7 @@ spring:
                 ds1:
                     nacos:
                         server-addr: localhost:8848
-                        dataId: manager-account-service
+                        dataId: manager-tester-service
                         groupId: DEFAULT_GROUP
                         data-type: json
                         rule-type: flow

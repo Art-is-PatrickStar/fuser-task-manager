@@ -5,5 +5,12 @@ package com.wsw.fusertaskmanager.service;
  * @Date: Created in 13:35 2020/11/20
  * @Description:
  */
-public class TesterService {
+public interface TesterService {
+    /**
+     * 新增测试人员
+     * @param name
+     * @param remark
+     * @return
+     */
+    int insert(String name, String remark);
 }

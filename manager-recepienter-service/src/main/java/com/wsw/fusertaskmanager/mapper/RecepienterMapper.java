@@ -1,11 +1,14 @@
 package com.wsw.fusertaskmanager.mapper;
 
 import com.wsw.fusertaskmanager.domain.Recepienter;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface RecepienterMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(Recepienter record);
+    int insert(@Param("name") String name, @Param("remark") String remark);
 
     int insertSelective(Recepienter record);
 

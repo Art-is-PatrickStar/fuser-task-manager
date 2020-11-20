@@ -2,14 +2,18 @@ package com.wsw.fusertaskmanager.service.impl;
 
 import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.mapper.TaskMapper;
+import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
+import com.wsw.fusertaskmanager.service.TesterService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,11 +26,22 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
     @Resource
     private TaskMapper taskMapper;
+    @Resource
+    private RecepienterService recepienterService;
+    @Resource
+    private TesterService testerService;
 
     @Override
-    @CachePut(key = "task.taskId")
+    @CachePut(key = "#task.taskId")
+    @Transactional(rollbackFor = Exception.class)
     public int createTask(Task task) {
-        return taskMapper.createTask(task);
+        int result = taskMapper.createTask(task);
+
+        recepienterService.create(task.getRecepientName(), new Date().toString());
+
+        testerService.create(task.getTesterName(), new Date().toString());
+
+        return result;
     }
 
     @Override

@@ -1,14 +1,14 @@
 package com.wsw.fusertaskmanager.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-/**
- * recepienter
- * @author 
- */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recepienter implements Serializable {
     private Long id;
 
