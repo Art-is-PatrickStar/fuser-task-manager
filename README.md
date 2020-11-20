@@ -129,5 +129,53 @@ management:
                 include: '*'
 ```
 
+#### 4. 配置文件manager-tester-service-dev.yaml
+
+```yaml
+server:
+    port: 2004
+
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://39.107.80.231:3306/task-system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+        username: HengTian
+        password: ***
+
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.wsw.fusertaskmanager.domain
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+```
+
+#### 5. 配置文件manager-recepienter-service-dev.yaml
+
+```yaml
+server:
+    port: 2003
+
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://39.107.80.231:3306/task-system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+        username: HengTian
+        password: ***
+
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.wsw.fusertaskmanager.domain
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+```
+
 配置文件在Nacos配置中心配置好后即可依次启动服务。
 
