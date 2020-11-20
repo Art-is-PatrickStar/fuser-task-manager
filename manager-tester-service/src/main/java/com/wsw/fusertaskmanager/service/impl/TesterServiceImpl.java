@@ -17,7 +17,7 @@ public class TesterServiceImpl implements TesterService {
     private TesterMapper testerMapper;
 
     @Override
-    public int insert(String name, String remark) {
-        return testerMapper.insert(name, remark);
+    public int insert(Long taskId, String taskName, String name, String remark) {
+        return testerMapper.insert(taskId, taskName, name, remark);
     }
 }

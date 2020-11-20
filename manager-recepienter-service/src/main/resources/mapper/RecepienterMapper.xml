@@ -3,12 +3,14 @@
 <mapper namespace="com.wsw.fusertaskmanager.mapper.RecepienterMapper">
   <resultMap id="BaseResultMap" type="com.wsw.fusertaskmanager.domain.Recepienter">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId"/>
+    <result column="task_name" jdbcType="VARCHAR" property="taskName"/>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
 
   <insert id="insert" parameterType="Recepienter">
-    insert into recepienter (name, remark) values (#{name}, #{remark})
+    insert into recepienter (task_id, task_name, name, remark) values (#{taskId}, #{taskName}, #{name}, #{remark})
   </insert>
 
 </mapper>

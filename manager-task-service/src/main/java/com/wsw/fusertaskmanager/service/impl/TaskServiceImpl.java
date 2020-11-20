@@ -35,11 +35,12 @@ public class TaskServiceImpl implements TaskService {
     @CachePut(key = "#task.taskId")
     @Transactional(rollbackFor = Exception.class)
     public int createTask(Task task) {
+        // 添加任务
         int result = taskMapper.createTask(task);
-
-        recepienterService.create(task.getRecepientName(), new Date().toString());
-
-        testerService.create(task.getTesterName(), new Date().toString());
+        // 调用recepienter服务添加领取人员信息
+        recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
+        // 调用tester服务添加测试人员信息
+        testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
 
         return result;
     }

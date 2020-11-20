@@ -13,5 +13,5 @@ public interface RecepienterService {
      * @param remark
      * @return
      */
-    int insert(String name, String remark);
+    int insert(Long taskId, String taskName, String name, String remark);
 }

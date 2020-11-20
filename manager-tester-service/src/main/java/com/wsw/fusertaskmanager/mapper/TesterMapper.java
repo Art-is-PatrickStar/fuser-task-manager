@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 public interface TesterMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(@Param("name") String name, @Param("remark") String remark);
+    int insert(@Param("taskId") Long taskId, @Param("taskName") String taskName, @Param("name") String name, @Param("remark") String remark);
 
     int insertSelective(Tester record);
 

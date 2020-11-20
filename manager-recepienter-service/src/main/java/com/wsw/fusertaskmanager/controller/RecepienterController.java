@@ -17,8 +17,8 @@ public class RecepienterController {
     @Resource
     private RecepienterService recepienterService;
 
-    @PostMapping("/recepient/create")
-    public int create(@RequestParam("name") String name, @RequestParam("remark") String remark){
-        return recepienterService.insert(name, remark);
+    @PostMapping("/recepienter/create")
+    public int create(@RequestParam("taskId") Long taskId, @RequestParam("taskName") String taskName, @RequestParam("name") String name, @RequestParam("remark") String remark){
+        return recepienterService.insert(taskId, taskName, name, remark);
     }
 }

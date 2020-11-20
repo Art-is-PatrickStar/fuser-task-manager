@@ -10,11 +10,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recepienter implements Serializable {
-    private Long id;
-
-    private String name;
-
-    private String remark;
-
     private static final long serialVersionUID = 1L;
+
+    private Long id;
+    private Long taskId;
+    private String taskName;
+    private String name;
+    private String remark;
 }

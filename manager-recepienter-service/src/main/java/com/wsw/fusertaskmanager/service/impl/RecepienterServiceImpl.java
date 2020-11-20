@@ -17,7 +17,7 @@ public class RecepienterServiceImpl implements RecepienterService {
     private RecepienterMapper recepienterMapper;
 
     @Override
-    public int insert(String name, String remark) {
-        return recepienterMapper.insert(name, remark);
+    public int insert(Long taskId, String taskName, String name, String remark) {
+        return recepienterMapper.insert(taskId, taskName, name, remark);
     }
 }

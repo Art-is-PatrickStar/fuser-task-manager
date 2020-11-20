@@ -18,7 +18,7 @@ public class TesterController {
     private TesterService testerService;
 
     @PostMapping("/tester/create")
-    public int create(@RequestParam("name") String name, @RequestParam("remark") String remark){
-        return testerService.insert(name, remark);
+    public int create(@RequestParam("taskId") Long taskId, @RequestParam("taskName") String taskName, @RequestParam("name") String name, @RequestParam("remark") String remark){
+        return testerService.insert(taskId, taskName, name, remark);
     }
 }
