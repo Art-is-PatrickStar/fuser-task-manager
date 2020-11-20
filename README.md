@@ -29,6 +29,15 @@ Java1.8
 8. 缓存中间件 Redis
 9. 消息中间件 RabbitMQ
 ```
+## 项目结构
+```text
+manager-gateway-service -> 1998
+manager-auth-service -> 2000
+manager-task-service -> 2001
+manager-mq-service -> 2002
+manager-recepienter-service -> 2003
+manager-tester-service -> 2004
+```
 
 ## 程序运行
 ### 本地环境
