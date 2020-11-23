@@ -1,6 +1,7 @@
 package com.wsw.fusertaskmanager.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.api.CommonResult;
 import com.wsw.fusertaskmanager.config.AuthConfig;
@@ -8,6 +9,7 @@ import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,31 +32,24 @@ import java.util.Map;
 public class AuthController {
     @Resource
     private AuthService authService;
-    @Resource
+    @Autowired
     private AuthConfig authConfig;
 
     @PostMapping("/auth")
     @ResponseBody
     public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password){
-        String tokenKey = authConfig.getKey();
+        String tokenKey = authConfig.getKey();  // token密钥
+        String authTokenET = authConfig.getAuthTokenExpirationTime();  // 认证 token过期时间
+        String refreshTokenET = authConfig.getRefreshTokenExpirationTime();  // 刷新token 过期时间
         CommonResult<Map> commonResult = null;
         try {
             Map<String, Object> map = new LinkedHashMap<>();
             User user = authService.auth(username, password);
             map.put("user", user);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            user.setPassword(null);  // jwt的json数据不能包含敏感信息
-            String userString = objectMapper.writeValueAsString(user);
-
-            // 对密匙进行Base64编码
-            String base64 = new BASE64Encoder().encode(tokenKey.getBytes());
-            // 生成密匙对象,会根据base64长度自动选择相应的HMAC算法
-            SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
-            // 利用jwt生成token
-            String token = Jwts.builder().setSubject(userString).signWith(secretKey).compact();
-            map.put("token", token);
+            String auth_token = getToken(user, tokenKey, authTokenET);
+            String refresh_token = refreshToken(user, tokenKey, refreshTokenET);
+            map.put("auth_token", auth_token);
+            map.put("refresh_token", refresh_token);
 
             commonResult = CommonResult.success(map);
         } catch (Exception e) {
@@ -61,5 +57,56 @@ public class AuthController {
         }
 
         return commonResult;
+    }
+
+    /**
+     * 生成token
+     * @param user
+     * @param tokenKey
+     * @param authTokenET
+     * @return
+     */
+    private String getToken(User user, String tokenKey, String authTokenET) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        user.setPassword(null);  // jwt的json数据不能包含敏感信息
+        String authToken = null;
+
+        try {
+            String userString = objectMapper.writeValueAsString(user);
+            // 对密匙进行Base64编码
+            String base64 = new BASE64Encoder().encode(tokenKey.getBytes());
+            // 生成密匙对象,会根据base64长度自动选择相应的HMAC算法
+            SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
+            // 利用jwt生成token
+            authToken = Jwts.builder()
+                    .setSubject(userString)
+                    .setExpiration(new Date(System.currentTimeMillis() + authTokenET))  // token过期时间
+                    .signWith(secretKey)
+                    .compact();
+
+            return authToken;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * 刷新token
+     * @param user
+     * @param tokenKey
+     * @param refreshTokenET
+     * @return
+     */
+    private String refreshToken(User user, String tokenKey, String refreshTokenET) {
+        String refreshToken = null;
+        try {
+            refreshToken = getToken(user, tokenKey, refreshTokenET);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return refreshToken;
     }
 }

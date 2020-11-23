@@ -18,4 +18,8 @@ import org.springframework.context.annotation.Configuration;
 public class AuthConfig {
     @Value("${jwt.secretKey}")
     private String key;
+    @Value("${jwt.authTokenExpirationTime}")
+    private String authTokenExpirationTime;
+    @Value("${jwt.refreshTokenExpirationTime}")
+    private String refreshTokenExpirationTime;
 }
