@@ -179,3 +179,8 @@ management:
 
 配置文件在Nacos配置中心配置好后即可依次启动服务。
 
+### 访问服务
+通过gateway网关暴露服务,通过网关访问具体服务即可,比如访问manager-task-service微服务:
+```text
+http://localhost:1998/manager-task-service/task/***
+```
