@@ -1,7 +1,6 @@
 package com.wsw.fusertaskmanager.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.api.CommonResult;
 import com.wsw.fusertaskmanager.config.AuthConfig;
@@ -9,8 +8,6 @@ import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,15 +29,16 @@ import java.util.Map;
 public class AuthController {
     @Resource
     private AuthService authService;
-    @Autowired
+    @Resource
     private AuthConfig authConfig;
 
     @PostMapping("/auth")
     @ResponseBody
     public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password){
-        String tokenKey = authConfig.getKey();  // token密钥
-        String authTokenET = authConfig.getAuthTokenExpirationTime();  // 认证 token过期时间
-        String refreshTokenET = authConfig.getRefreshTokenExpirationTime();  // 刷新token 过期时间
+        String tokenKey = authConfig.getSecretKey();  // token密钥
+        final Integer authTokenET = 24*60*60*1000;  // 认证 token过期时间
+        final Integer refreshTokenET = 7*24*60*60*1000;  // 刷新token 过期时间
+
         CommonResult<Map> commonResult = null;
         try {
             Map<String, Object> map = new LinkedHashMap<>();
@@ -66,7 +64,7 @@ public class AuthController {
      * @param authTokenET
      * @return
      */
-    private String getToken(User user, String tokenKey, String authTokenET) {
+    private String getToken(User user, String tokenKey, Integer authTokenET) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         user.setPassword(null);  // jwt的json数据不能包含敏感信息
@@ -100,7 +98,7 @@ public class AuthController {
      * @param refreshTokenET
      * @return
      */
-    private String refreshToken(User user, String tokenKey, String refreshTokenET) {
+    private String refreshToken(User user, String tokenKey, Integer refreshTokenET) {
         String refreshToken = null;
         try {
             refreshToken = getToken(user, tokenKey, refreshTokenET);

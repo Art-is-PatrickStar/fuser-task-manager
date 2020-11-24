@@ -11,15 +11,11 @@ import org.springframework.context.annotation.Configuration;
  * @Date 2020/11/15 下午6:36
  * @Description:
  */
-@Configuration
-@RefreshScope
 @Setter
 @Getter
+@Configuration
+@RefreshScope
 public class AuthConfig {
     @Value("${jwt.secretKey}")
-    private String key;
-    @Value("${jwt.authTokenExpirationTime}")
-    private String authTokenExpirationTime;
-    @Value("${jwt.refreshTokenExpirationTime}")
-    private String refreshTokenExpirationTime;
+    private String secretKey;
 }

@@ -9,9 +9,7 @@ import com.wsw.fusertaskmanager.config.AuthConfig;
 import com.wsw.fusertaskmanager.domain.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import sun.misc.BASE64Encoder;
@@ -20,7 +18,6 @@ import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -35,7 +32,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String tokenKey = authConfig.getKey();
+        String tokenKey = authConfig.getSecretKey();
         log.info("JwtTokenInterceptor.preHandle");
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)){
