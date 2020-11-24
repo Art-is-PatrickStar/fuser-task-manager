@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * @Author WangSongWen
  * @Date: Created in 17:47 2020/11/12
- * @Description:
+ * @Description: 认证中心颁发给前端的token分为auth_token(一般token-过期时间短)与refresh_token(刷新token-过期时间长)
  */
 @RestController
 public class AuthController {

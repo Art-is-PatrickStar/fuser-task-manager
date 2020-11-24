@@ -30,9 +30,12 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     @Resource
     private AuthConfig authConfig;
 
+    /**
+     * 前端发送token分为auth_token(一般token-过期时间短)与refresh_token(刷新token-过期时间长)
+     * auth_token若已过期,则用refresh_token进行验证, 具体怎么传, 前端控制, 后端只负责验证
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String tokenKey = authConfig.getSecretKey();
         log.info("JwtTokenInterceptor.preHandle");
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)){
@@ -61,6 +64,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 }
             }else {
                 // token存在，验证有效性
+                String tokenKey = authConfig.getSecretKey();
                 String base64 = new BASE64Encoder().encode(tokenKey.getBytes());
                 SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
                 try {
@@ -79,7 +83,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                     response.getWriter().println(json);
                     return false;
                 } catch (JwtException e) {
-                    // 验证失败抛出异常
+                    // token过期抛出异常
                     e.printStackTrace();
                     response.setStatus(404);
                     CommonResult<Object> commonResult = CommonResult.validateFailed();
