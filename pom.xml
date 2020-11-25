@@ -12,7 +12,6 @@
 <modules>
     <module>manager-api-commons</module>
     <module>manager-task-service</module>
-    <module>manager-mq-service</module>
     <module>manager-gateway-service</module>
     <module>manager-auth-service</module>
     <module>manager-tester-service</module>

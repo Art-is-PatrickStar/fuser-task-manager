@@ -5,6 +5,8 @@ import com.wsw.fusertaskmanager.mapper.TaskMapper;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
 import com.wsw.fusertaskmanager.service.TesterService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -14,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author WangSongWen
@@ -30,6 +34,8 @@ public class TaskServiceImpl implements TaskService {
     private RecepienterService recepienterService;
     @Resource
     private TesterService testerService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     @CachePut(key = "#task.taskId")
@@ -37,10 +43,21 @@ public class TaskServiceImpl implements TaskService {
     public int createTask(Task task) {
         // 添加任务
         int result = taskMapper.createTask(task);
+        //同步调用
         // 调用recepienter服务添加领取人员信息
-        recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
+        //recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
         // 调用tester服务添加测试人员信息
-        testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
+        //testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
+
+        // RabbitMQ异步调用
+        Map<String, Object> messageMap = new HashMap<>();
+        messageMap.put("taskId", task.getTaskId());
+        messageMap.put("taskName", task.getTaskName());
+        messageMap.put("testerName", task.getTesterName());
+        messageMap.put("recepientName", task.getRecepientName());
+        messageMap.put("remark", new Date().toString());
+
+        rabbitTemplate.convertAndSend("fanoutExchange", null, messageMap);
 
         return result;
     }
