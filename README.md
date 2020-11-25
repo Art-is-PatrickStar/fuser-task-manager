@@ -34,7 +34,6 @@ Java1.8
 manager-gateway-service -> 1998
 manager-auth-service -> 2000
 manager-task-service -> 2001
-manager-mq-service -> 2002
 manager-recepienter-service -> 2003
 manager-tester-service -> 2004
 ```
@@ -110,7 +109,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: manual
+                    acknowledge-mode: auto
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
@@ -183,7 +182,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: manual
+                    acknowledge-mode: auto
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
@@ -232,7 +231,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: manual
+                    acknowledge-mode: auto
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
