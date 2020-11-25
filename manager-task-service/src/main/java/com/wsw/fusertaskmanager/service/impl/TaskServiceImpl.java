@@ -5,6 +5,8 @@ import com.wsw.fusertaskmanager.mapper.TaskMapper;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
 import com.wsw.fusertaskmanager.service.TesterService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -26,6 +28,7 @@ import java.util.Map;
  * @Description:
  */
 @Service
+@Slf4j
 @CacheConfig(cacheNames = "task")
 public class TaskServiceImpl implements TaskService {
     @Resource
@@ -57,7 +60,12 @@ public class TaskServiceImpl implements TaskService {
         messageMap.put("recepientName", task.getRecepientName());
         messageMap.put("remark", new Date().toString());
 
-        rabbitTemplate.convertAndSend("fanoutExchange", null, messageMap);
+        try {
+            rabbitTemplate.convertAndSend("fanoutExchange", null, messageMap);
+        } catch (AmqpException e) {
+            log.error("消息发送失败: " + e.getMessage());
+        }
+        log.info("消息发送成功!");
 
         return result;
     }

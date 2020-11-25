@@ -20,22 +20,25 @@ import java.util.Map;
  */
 @Service
 @Slf4j
+@RabbitListener(queues = "queueRecepienter")
 public class RecepienterServiceImpl implements RecepienterService {
     @Resource
     private RecepienterMapper recepienterMapper;
 
-    @RabbitListener(queues = "queueRecepienter")
     @RabbitHandler
     public void receiveMessage(Map messageMap){
         if (MapUtil.isNotEmpty(messageMap)){
-            log.info(JSONObject.toJSONString(messageMap));
+            log.info("manager-recepienter-service接收到了消息: " + JSONObject.toJSONString(messageMap));
 
             Long taskId = MapUtil.getLong(messageMap, "taskId");
             String taskName = MapUtil.getStr(messageMap, "taskName");
-            String recepienterName = MapUtil.getStr(messageMap, "recepienterName");
+            String recepientName = MapUtil.getStr(messageMap, "recepientName");
             String remark = MapUtil.getStr(messageMap, "remark");
-            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(recepienterName)){
-                insert(taskId, taskName, recepienterName, remark);
+            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(recepientName)){
+                int result = insert(taskId, taskName, recepientName, remark);
+                if (result >= 1){
+                    log.info("manager-recepienter-service插入数据成功!");
+                }
             }
         }
     }
