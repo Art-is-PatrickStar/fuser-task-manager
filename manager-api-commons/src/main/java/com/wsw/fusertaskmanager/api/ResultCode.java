@@ -5,7 +5,7 @@ package com.wsw.fusertaskmanager.api;
  * @Date: Created in 15:04 2020/11/11
  * @Description: 枚举一些常用的API操作码
  */
-public enum ResultCode implements IErrorCode{
+public enum ResultCode implements IErrorCode {
     SUCCESS(200, "操作成功"),
     FAILED(500, "操作失败"),
     VALIDATE_FAILED(404, "参数检验失败"),
@@ -14,7 +14,7 @@ public enum ResultCode implements IErrorCode{
     private final Integer code;
     private final String message;
 
-    private ResultCode(Integer code, String message) {
+    ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

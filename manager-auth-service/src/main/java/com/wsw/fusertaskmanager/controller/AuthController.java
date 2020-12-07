@@ -1,5 +1,6 @@
 package com.wsw.fusertaskmanager.controller;
 
+import cn.hutool.json.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.api.CommonResult;
@@ -8,6 +9,8 @@ import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +26,7 @@ import java.util.Map;
 /**
  * @Author WangSongWen
  * @Date: Created in 17:47 2020/11/12
- * @Description: 认证中心颁发给前端的token分为auth_token(一般token-过期时间短)与refresh_token(刷新token-过期时间长)
+ * @Description: 认证中心颁发给前端的token分为auth_token(一般token - 过期时间短)与refresh_token(刷新token - 过期时间长)
  */
 @RestController
 public class AuthController {
@@ -31,14 +34,17 @@ public class AuthController {
     private AuthService authService;
     @Resource
     private AuthConfig authConfig;
+    @Value("${jwt.authTokenET}")
+    //@Value("#{T(java.lang.Integer).parseInt('${jwt.authTokenET}')}")
+    private Integer authTokenET;  // 认证token 过期时间
+    @Value("${jwt.refreshTokenET}")
+    //@Value("#{T(java.lang.Integer).parseInt('${jwt.refreshTokenET}')}")
+    private Integer refreshTokenET;  // 刷新token 过期时间
 
     @PostMapping("/auth")
     @ResponseBody
-    public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password){
+    public CommonResult<Map> auth(@RequestParam("username") String username, @RequestParam("password") String password) {
         String tokenKey = authConfig.getSecretKey();  // token密钥
-        final Integer authTokenET = 24*60*60*1000;  // 认证 token过期时间
-        final Integer refreshTokenET = 7*24*60*60*1000;  // 刷新token 过期时间
-
         CommonResult<Map> commonResult = null;
         try {
             Map<String, Object> map = new LinkedHashMap<>();
@@ -58,12 +64,10 @@ public class AuthController {
     }
 
     /**
-     * 生成token
-     * @param user
-     * @param tokenKey
-     * @param authTokenET
-     * @return
-     */
+     * @description: 生成token
+     * @author: wangsongwen
+     * @date: 2020/12/2 16:14
+     **/
     private String getToken(User user, String tokenKey, Integer authTokenET) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -92,12 +96,10 @@ public class AuthController {
     }
 
     /**
-     * 刷新token
-     * @param user
-     * @param tokenKey
-     * @param refreshTokenET
-     * @return
-     */
+     * @description: 刷新token
+     * @author: wangsongwen
+     * @date: 2020/12/2 16:15
+     **/
     private String refreshToken(User user, String tokenKey, Integer refreshTokenET) {
         String refreshToken = null;
         try {
