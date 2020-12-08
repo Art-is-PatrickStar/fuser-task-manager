@@ -2,15 +2,18 @@ package com.wsw.fusertaskmanager.service.impl;
 
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.rabbitmq.client.Channel;
 import com.wsw.fusertaskmanager.mapper.RecepienterMapper;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,16 +23,16 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-@RabbitListener(queues = "queueRecepienter")
 public class RecepienterServiceImpl implements RecepienterService {
     @Resource
     private RecepienterMapper recepienterMapper;
 
     @RabbitHandler
-    public void receiveMessage(Map messageMap){
-        if (MapUtil.isNotEmpty(messageMap)){
+    @RabbitListener(queues = "queueRecepienter")
+    public void receiveMessage(Message message, Channel channel, Map<String, Object> messageMap) throws IOException {
+        try {
             log.info("manager-recepienter-service接收到了消息: " + JSONObject.toJSONString(messageMap));
-
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             Long taskId = MapUtil.getLong(messageMap, "taskId");
             String taskName = MapUtil.getStr(messageMap, "taskName");
             String recepientName = MapUtil.getStr(messageMap, "recepientName");
@@ -40,6 +43,9 @@ public class RecepienterServiceImpl implements RecepienterService {
                     log.info("manager-recepienter-service插入数据成功!");
                 }
             }
+        } catch (Exception e) {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+            log.error(e.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package com.wsw.fusertaskmanager.service.impl;
 
 import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.mapper.TaskMapper;
+import com.wsw.fusertaskmanager.service.MessageService;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
 import com.wsw.fusertaskmanager.service.TesterService;
@@ -42,30 +43,31 @@ public class TaskServiceImpl implements TaskService {
     private RecepienterService recepienterService;
     @Resource
     private TesterService testerService;
+    @Resource
+    private MessageService messageService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int createTask(Task task) {
-        // 添加任务
-        int result = taskMapper.createTask(task);
-        //同步调用
-        // 调用recepienter服务添加领取人员信息
-        //recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
-        // 调用tester服务添加测试人员信息
-        //testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
-
-        // RabbitMQ异步调用
-        Map<String, Object> messageMap = new HashMap<>();
-        messageMap.put("taskId", task.getTaskId());
-        messageMap.put("taskName", task.getTaskName());
-        messageMap.put("testerName", task.getTesterName());
-        messageMap.put("recepientName", task.getRecepientName());
-        messageMap.put("remark", new Date().toString());
-
+        int result = 0;
         try {
-            rabbitTemplate.convertAndSend("fanoutExchange", null, messageMap);
+            // 添加任务
+            result = taskMapper.createTask(task);
+            //同步调用
+            // 调用recepienter服务添加领取人员信息
+            //recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
+            // 调用tester服务添加测试人员信息
+            //testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
+            // RabbitMQ异步调用
+            Map<String, Object> messageMap = new HashMap<>();
+            messageMap.put("taskId", task.getTaskId());
+            messageMap.put("taskName", task.getTaskName());
+            messageMap.put("testerName", task.getTesterName());
+            messageMap.put("recepientName", task.getRecepientName());
+            messageMap.put("remark", new Date().toString());
+            messageService.sendMessage(messageMap);
         } catch (AmqpException e) {
             log.error("消息发送失败: " + e.getMessage());
         }
