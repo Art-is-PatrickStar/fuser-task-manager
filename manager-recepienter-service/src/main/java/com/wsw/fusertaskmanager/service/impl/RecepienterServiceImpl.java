@@ -32,7 +32,7 @@ public class RecepienterServiceImpl implements RecepienterService {
     public void receiveMessage(Message message, Channel channel, Map<String, Object> messageMap) throws IOException {
         try {
             log.info("manager-recepienter-service接收到了消息: " + JSONObject.toJSONString(messageMap));
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+
             Long taskId = MapUtil.getLong(messageMap, "taskId");
             String taskName = MapUtil.getStr(messageMap, "taskName");
             String recepientName = MapUtil.getStr(messageMap, "recepientName");
@@ -44,9 +44,10 @@ public class RecepienterServiceImpl implements RecepienterService {
                 }
             }
         } catch (Exception e) {
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
             log.error(e.getMessage());
         }
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
     @Override

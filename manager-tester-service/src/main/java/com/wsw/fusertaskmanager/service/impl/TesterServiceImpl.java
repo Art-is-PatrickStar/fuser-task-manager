@@ -32,7 +32,7 @@ public class TesterServiceImpl implements TesterService {
     public void receiveMessage(Message message, Channel channel, Map<String, Object> messageMap) throws IOException {
         try {
             log.info("manager-tester-service接收到了消息: " + JSONObject.toJSONString(messageMap));
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+
             Long taskId = MapUtil.getLong(messageMap, "taskId");
             String taskName = MapUtil.getStr(messageMap, "taskName");
             String testerName = MapUtil.getStr(messageMap, "testerName");
@@ -44,9 +44,10 @@ public class TesterServiceImpl implements TesterService {
                 }
             }
         } catch (Exception e) {
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
             log.error(e.getMessage());
         }
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
     @Override
