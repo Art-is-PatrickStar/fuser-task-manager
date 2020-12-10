@@ -109,7 +109,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: auto
+                    acknowledge-mode: manual
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
@@ -182,7 +182,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: auto
+                    acknowledge-mode: manual
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
@@ -231,7 +231,7 @@ spring:
             listener:  
                 simple:
                     # 消费者的ack方式为手动 auto自动 none不会发送ACK（与channelTransacted=true不兼容）
-                    acknowledge-mode: auto
+                    acknowledge-mode: manual
                     # 最小消费者数量
                     concurrency: 1
                     # 最大消费者数量
