@@ -1,6 +1,5 @@
 package com.wsw.fusertaskmanager.controller;
 
-import cn.hutool.json.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.fusertaskmanager.api.CommonResult;
@@ -9,7 +8,6 @@ import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.AuthService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

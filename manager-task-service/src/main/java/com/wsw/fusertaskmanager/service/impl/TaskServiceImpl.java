@@ -8,8 +8,6 @@ import com.wsw.fusertaskmanager.service.TaskService;
 import com.wsw.fusertaskmanager.service.TesterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -45,8 +43,6 @@ public class TaskServiceImpl implements TaskService {
     private TesterService testerService;
     @Resource
     private MessageService messageService;
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
