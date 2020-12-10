@@ -32,7 +32,7 @@ public class TesterServiceImpl implements TesterService {
     public void receiveMessage(Message message, Channel channel, Map<String, Object> messageMap) throws IOException {
         try {
             log.info("manager-tester-service接收到了消息: " + JSONObject.toJSONString(messageMap));
-
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             Long taskId = MapUtil.getLong(messageMap, "taskId");
             String taskName = MapUtil.getStr(messageMap, "taskName");
             String testerName = MapUtil.getStr(messageMap, "testerName");
@@ -44,10 +44,17 @@ public class TesterServiceImpl implements TesterService {
                 }
             }
         } catch (Exception e) {
-            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+            if (message.getMessageProperties().getRedelivered()) {
+                log.info("消息已重复处理失败,拒绝再次接收");
+                // 拒绝消息，requeue=false 表示不再重新入队，如果配置了死信队列则进入死信队列
+                channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+            } else {
+                log.info("消息即将再次返回队列处理");
+                // requeue为是否重新回到队列，true重新入队
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+            }
             log.error(e.getMessage());
         }
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
     @Override

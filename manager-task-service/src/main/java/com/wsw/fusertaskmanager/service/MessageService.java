@@ -1,6 +1,7 @@
 package com.wsw.fusertaskmanager.service;
 
 import cn.hutool.core.lang.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @Description:
  */
 @Service
+@Slf4j
 public class MessageService implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -31,15 +33,18 @@ public class MessageService implements RabbitTemplate.ConfirmCallback, RabbitTem
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         System.out.println("消息ID: " + (correlationData != null ? correlationData.getId() : null));
         if (ack) {
-            System.out.println("消息发送确认成功!");
+            log.info("消息发送成功: {}", correlationData);
         } else {
-            System.out.println("消息发送确认失败!" + cause);
+            log.info("消息发送失败: {}", cause);
         }
     }
 
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-        System.out.println("return--message: " + new String(message.getBody(), StandardCharsets.UTF_8) + ", replyCode: " + replyCode
-                + ", replyText: " + replyText + ", exchange: " + exchange + ", routingKey: " + routingKey);
-    }
+            log.info("消息主体: {}", message);
+            log.info("应答码: {}", replyCode);
+            log.info("描述: {}", replyText);
+            log.info("消息使用的交换器 exchange: {}", exchange);
+            log.info("消息使用的路由键 routing: {}", routingKey);
+        }
 }

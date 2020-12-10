@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,4 +49,13 @@ public class FanoutRabbitConfig {
     Binding bindingExchangeRecepienter(){
         return BindingBuilder.bind(queueRecepienter()).to(fanoutExchange());
     }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        //必须为true,否则无法触发returnedMessage回调，消息丢失
+        rabbitTemplate.setMandatory(true);
+        return rabbitTemplate;
+    }
+
 }
