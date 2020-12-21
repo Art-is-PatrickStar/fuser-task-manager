@@ -2,12 +2,15 @@ package com.wsw.fusertaskmanager.service.impl;
 
 import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.mapper.TaskMapper;
-import com.wsw.fusertaskmanager.service.MessageService;
+import com.wsw.fusertaskmanager.message.MessageService;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
 import com.wsw.fusertaskmanager.service.TesterService;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.amqp.AmqpException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -20,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author WangSongWen
@@ -43,6 +47,8 @@ public class TaskServiceImpl implements TaskService {
     private TesterService testerService;
     @Resource
     private MessageService messageService;
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -75,7 +81,20 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @CachePut(key = "#task.taskId")
     public int updateTaskById(Task task) {
-        return taskMapper.updateTaskById(task);
+        int result = 0;
+
+        // 4. Get Redis based implementation of java.util.concurrent.locks.Lock
+        RLock lock = redissonClient.getLock("task-service");
+        lock.lock(30, TimeUnit.SECONDS);
+        try {
+            result = taskMapper.updateTaskById(task);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+
+        return result;
     }
 
     @Override

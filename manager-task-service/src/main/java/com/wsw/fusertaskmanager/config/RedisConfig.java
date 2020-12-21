@@ -1,6 +1,9 @@
 package com.wsw.fusertaskmanager.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -39,5 +42,18 @@ public class RedisConfig {
         //defaultCacheConfig.entryTtl(Duration.ofSeconds(40));
         // 初始化RedisCacheManager
         return new RedisCacheManager(redisCacheWriter, defaultCacheConfig);
+    }
+
+    // Redisson
+    @Bean
+    public RedissonClient redissonClient(){
+        // 1. Create config object
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://39.107.80.231:6379");
+        /*config.useClusterServers()
+                // use "rediss://" for SSL connection
+                .addNodeAddress("redis://127.0.0.1:7181");*/
+
+        return Redisson.create(config);
     }
 }

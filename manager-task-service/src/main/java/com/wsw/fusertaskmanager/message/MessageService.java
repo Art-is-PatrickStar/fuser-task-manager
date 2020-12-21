@@ -1,4 +1,4 @@
-package com.wsw.fusertaskmanager.service;
+package com.wsw.fusertaskmanager.message;
 
 import cn.hutool.core.lang.UUID;
 import lombok.extern.slf4j.Slf4j;
