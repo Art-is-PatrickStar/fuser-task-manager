@@ -50,6 +50,8 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private RedissonClient redissonClient;
 
+    private static final String REDIS_LOCK_KEY = "task-service";
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int createTask(Task task) {
@@ -82,9 +84,8 @@ public class TaskServiceImpl implements TaskService {
     @CachePut(key = "#task.taskId")
     public int updateTaskById(Task task) {
         int result = 0;
-
         // 4. Get Redis based implementation of java.util.concurrent.locks.Lock
-        RLock lock = redissonClient.getLock("task-service");
+        RLock lock = redissonClient.getLock(REDIS_LOCK_KEY);
         lock.lock(30, TimeUnit.SECONDS);
         try {
             result = taskMapper.updateTaskById(task);
