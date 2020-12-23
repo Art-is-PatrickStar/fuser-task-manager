@@ -1,6 +1,5 @@
 package com.wsw.fusertaskmanager.message;
 
-import cn.hutool.core.lang.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author WangSongWen

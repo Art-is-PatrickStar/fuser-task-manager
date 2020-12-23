@@ -1,12 +1,12 @@
 package com.wsw.fusertaskmanager.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.wsw.fusertaskmanager.annotation.JwtToken;
 import com.wsw.fusertaskmanager.api.CommonResult;
 import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.domain.User;
 import com.wsw.fusertaskmanager.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,7 +103,7 @@ public class TaskController {
     @GetMapping("/select/byname")
     public CommonResult selectTaskByName(@RequestParam("taskName") String taskName){
         List<Task> tasks = taskService.selectTaskByName(taskName);
-        if (CollectionUtil.isNotEmpty(tasks)){
+        if (CollectionUtils.isNotEmpty(tasks)){
             return CommonResult.success(tasks);
         }
         return CommonResult.failed();
@@ -112,7 +112,7 @@ public class TaskController {
     @GetMapping("/select/bystatus/{taskStatus}")
     public CommonResult selectTaskByStatus(@PathVariable("taskStatus") char taskStatus){
         List<Task> tasks = taskService.selectTaskByStatus(taskStatus);
-        if (CollectionUtil.isNotEmpty(tasks)){
+        if (CollectionUtils.isNotEmpty(tasks)){
             return CommonResult.success(tasks);
         }
         return CommonResult.failed();

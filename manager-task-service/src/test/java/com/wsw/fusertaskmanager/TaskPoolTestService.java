@@ -1,7 +1,7 @@
 package com.wsw.fusertaskmanager;
 
-import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -39,10 +39,10 @@ public class TaskPoolTestService {
 
         if (null != response && response.getStatusCodeValue() == HttpStatus.OK.value()) {
             Map<String, Object> responseBodyMap = JSON.parseObject(response.getBody(), Map.class);
-            if (!MapUtil.isEmpty(responseBodyMap)) {
+            if (MapUtils.isNotEmpty(responseBodyMap)) {
                 Object code = responseBodyMap.get("code");
                 Object data = responseBodyMap.get("data");
-                Object message = MapUtil.getStr(responseBodyMap, "message");
+                Object message = MapUtils.getString(responseBodyMap, "message");
                 if (null != code && null != data && null != message) {
                     taskPoolMap.put("code", code);
                     taskPoolMap.put("data", data);

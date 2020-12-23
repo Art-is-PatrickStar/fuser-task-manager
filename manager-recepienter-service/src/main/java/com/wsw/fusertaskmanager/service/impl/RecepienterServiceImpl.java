@@ -1,11 +1,11 @@
 package com.wsw.fusertaskmanager.service.impl;
 
-import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.rabbitmq.client.Channel;
 import com.wsw.fusertaskmanager.mapper.RecepienterMapper;
 import com.wsw.fusertaskmanager.service.RecepienterService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -33,10 +33,10 @@ public class RecepienterServiceImpl implements RecepienterService {
         try {
             log.info("manager-recepienter-service接收到了消息: " + JSONObject.toJSONString(messageMap));
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            Long taskId = MapUtil.getLong(messageMap, "taskId");
-            String taskName = MapUtil.getStr(messageMap, "taskName");
-            String recepientName = MapUtil.getStr(messageMap, "recepientName");
-            String remark = MapUtil.getStr(messageMap, "remark");
+            Long taskId = MapUtils.getLong(messageMap, "taskId");
+            String taskName = MapUtils.getString(messageMap, "taskName");
+            String recepientName = MapUtils.getString(messageMap, "recepientName");
+            String remark = MapUtils.getString(messageMap, "remark");
             if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(recepientName)){
                 int result = insert(taskId, taskName, recepientName, remark);
                 if (result >= 1){
