@@ -21,7 +21,7 @@ public class MessageService implements RabbitTemplate.ConfirmCallback, RabbitTem
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(Map<String, Object> message){
+    public void sendMessage(Map<String, Object> message) {
         rabbitTemplate.setConfirmCallback(this);
         rabbitTemplate.setReturnCallback(this);
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
@@ -40,10 +40,10 @@ public class MessageService implements RabbitTemplate.ConfirmCallback, RabbitTem
 
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-            log.info("消息主体: {}", message);
-            log.info("应答码: {}", replyCode);
-            log.info("描述: {}", replyText);
-            log.info("消息使用的交换器 exchange: {}", exchange);
-            log.info("消息使用的路由键 routing: {}", routingKey);
-        }
+        log.info("消息主体: {}", message);
+        log.info("应答码: {}", replyCode);
+        log.info("描述: {}", replyText);
+        log.info("消息使用的交换器 exchange: {}", exchange);
+        log.info("消息使用的路由键 routing: {}", routingKey);
+    }
 }

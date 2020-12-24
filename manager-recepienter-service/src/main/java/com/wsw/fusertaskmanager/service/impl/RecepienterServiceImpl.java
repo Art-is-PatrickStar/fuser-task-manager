@@ -37,9 +37,9 @@ public class RecepienterServiceImpl implements RecepienterService {
             String taskName = MapUtils.getString(messageMap, "taskName");
             String recepientName = MapUtils.getString(messageMap, "recepientName");
             String remark = MapUtils.getString(messageMap, "remark");
-            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(recepientName)){
+            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(recepientName)) {
                 int result = insert(taskId, taskName, recepientName, remark);
-                if (result >= 1){
+                if (result >= 1) {
                     log.info("manager-recepienter-service插入数据成功!");
                 }
             }

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @Author WangSongWen
  * @Date: Created in 14:28 2020/11/9
  * @Description: task主服务
- *
+ * <p>
  * redis缓存:
  * 1.Cacheable: 将查询结果缓存到redis中,(key="#p0")指定传入的第一个参数作为redis的key
  * 2.CachePut: 指定key,将更新的结果同步到redis中
@@ -89,9 +89,9 @@ public class TaskServiceImpl implements TaskService {
         lock.lock(30, TimeUnit.SECONDS);
         try {
             result = taskMapper.updateTaskById(task);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             lock.unlock();
         }
 

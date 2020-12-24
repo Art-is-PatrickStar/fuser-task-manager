@@ -37,9 +37,9 @@ public class TesterServiceImpl implements TesterService {
             String taskName = MapUtils.getString(messageMap, "taskName");
             String testerName = MapUtils.getString(messageMap, "testerName");
             String remark = MapUtils.getString(messageMap, "remark");
-            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(testerName)){
+            if (null != taskId && StringUtils.isNotBlank(taskName) && StringUtils.isNotBlank(testerName)) {
                 int result = insert(taskId, taskName, testerName, remark);
-                if (result >= 1){
+                if (result >= 1) {
                     log.info("manager-tester-service插入数据成功!");
                 }
             }
