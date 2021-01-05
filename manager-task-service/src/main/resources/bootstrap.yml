@@ -40,3 +40,7 @@ ribbon:
 #    eager-load:
 #        enabled: true
 #        clients: manager-task-service, manager-account-service, manager-storage-service
+
+redisson:
+    client:
+        address: redis://39.107.80.231:6379

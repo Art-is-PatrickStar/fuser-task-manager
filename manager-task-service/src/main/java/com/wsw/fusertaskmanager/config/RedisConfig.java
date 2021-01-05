@@ -4,6 +4,7 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -24,20 +25,24 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
+    @Value("${redisson.client.address}")
+    private String redissonAddress;
+
     /**
      * 缓存管理器
+     *
      * @param redisConnectionFactory
      * @return
      */
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         // 初始化一个RedisCacheWriter
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
         // 设置CacheManager的值序列化方式为json序列化 - 改为使用fastjson，解决反序列化报错
         //RedisSerializer<Object> jsonSerializer = new GenericJackson2JsonRedisSerializer();
         GenericFastJsonRedisSerializer jsonSerializer = new GenericFastJsonRedisSerializer();
         RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(jsonSerializer);
-        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair).entryTtl(Duration.ofMinutes(10));;
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair).entryTtl(Duration.ofMinutes(10));
         // 设置默认过期时间是10分钟
         //defaultCacheConfig.entryTtl(Duration.ofSeconds(40));
         // 初始化RedisCacheManager
@@ -46,10 +51,10 @@ public class RedisConfig {
 
     // Redisson
     @Bean
-    public RedissonClient redissonClient(){
+    public RedissonClient redissonClient() {
         // 1. Create config object
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://39.107.80.231:6379");
+        config.useSingleServer().setAddress(redissonAddress);
         /*config.useClusterServers()
                 // use "rediss://" for SSL connection
                 .addNodeAddress("redis://127.0.0.1:7181");*/

@@ -1,12 +1,11 @@
 package com.wsw.fusertaskmanager.service.impl;
 
+import com.wsw.fusertaskmanager.client.RecepienterClient;
+import com.wsw.fusertaskmanager.client.TesterClient;
 import com.wsw.fusertaskmanager.domain.Task;
 import com.wsw.fusertaskmanager.mapper.TaskMapper;
 import com.wsw.fusertaskmanager.message.AsyncSendMessage;
-import com.wsw.fusertaskmanager.message.MessageService;
-import com.wsw.fusertaskmanager.service.RecepienterService;
 import com.wsw.fusertaskmanager.service.TaskService;
-import com.wsw.fusertaskmanager.service.TesterService;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -43,9 +42,9 @@ public class TaskServiceImpl implements TaskService {
     @Resource
     private TaskMapper taskMapper;
     @Resource
-    private RecepienterService recepienterService;
+    private RecepienterClient recepienterClient;
     @Resource
-    private TesterService testerService;
+    private TesterClient testerClient;
     @Resource
     private AsyncSendMessage asyncSendMessage;
     @Autowired
@@ -62,9 +61,9 @@ public class TaskServiceImpl implements TaskService {
             result = taskMapper.createTask(task);
             //同步调用
             // 调用recepienter服务添加领取人员信息
-            //recepienterService.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
+            //recepienterClient.create(task.getTaskId(), task.getTaskName(), task.getRecepientName(), new Date().toString());
             // 调用tester服务添加测试人员信息
-            //testerService.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
+            //testerClient.create(task.getTaskId(), task.getTaskName(), task.getTesterName(), new Date().toString());
             Map<String, Object> messageMap = new HashMap<>();
             messageMap.put("taskId", task.getTaskId());
             messageMap.put("taskName", task.getTaskName());

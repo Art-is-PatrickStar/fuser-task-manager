@@ -17,6 +17,7 @@
     <module>manager-tester-service</module>
     <module>manager-recepienter-service</module>
     <module>manager-es-service</module>
+    <module>manager-feign-client-service</module>
 </modules>
 
 <!-- 统一管理jar包版本 -->
